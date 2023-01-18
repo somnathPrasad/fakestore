@@ -9,6 +9,7 @@ import {
 } from 'react-query'
 import React from "react";
 import CartProvider from '@/context/CartProvider'
+import { NotificationProvider } from '@/context/NotificationProvider'
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -23,10 +24,12 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <CartProvider>
+        <NotificationProvider>
           <div className={`${montserrat.variable}font-montserrat`}>
             <Navbar />
             <Component {...pageProps} />
           </div>
+          </NotificationProvider>
         </CartProvider>
       </Hydrate>
     </QueryClientProvider>

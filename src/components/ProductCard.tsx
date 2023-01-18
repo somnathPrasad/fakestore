@@ -1,4 +1,5 @@
 import useCart from "@/hooks/useCart";
+import useToast from "@/hooks/useToast";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { MouseEventHandler } from "react"
@@ -31,6 +32,11 @@ const RemoveButton = ({ onClick }: { onClick: MouseEventHandler }) => {
 export default function ProductCard({ product }: { product: product }) {
     const { setCartItems } = useCart();
     const { pathname } = useRouter();
+    const notify = useToast();
+    const onAdd = ()=>{
+        notify(()=>"item added")
+        setCartItems(prev => [...prev, product])
+    }
     return (
         <div className="bg-white my-5 py-3 px-3 rounded-md border border-slate-300 shadow-lg flex flex-col justify-between">
             <div
@@ -56,7 +62,7 @@ export default function ProductCard({ product }: { product: product }) {
             <div className="flex flex-row mt-2 gap-2">
                 {pathname === "/cart" && <RemoveButton onClick={() => setCartItems(prev => prev.filter(item => item.id !== product.id)
                 )} />}
-                {pathname === "/" && <AddButton onClick={() => setCartItems(prev => [...prev, product])} />}
+                {pathname === "/" && <AddButton onClick={onAdd} />}
             </div>
         </div>
     )
